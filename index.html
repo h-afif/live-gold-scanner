@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Live Gold Scanner - Get real-time gold prices, historical data, and more.">
+    <meta name="keywords" content="Gold Live Scanner, Gold Prices, Real-time Gold Data, Gold API">
+    <meta name="author" content="Your Name">
+    <title>Gold Live Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .container {
+            max-width: 800px;
+            margin: 80px auto 20px; /* Added margin-top to accommodate the fixed header */
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        .data {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+        }
+        .data div {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .data div:last-child {
+            border-bottom: none;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gold Live Scanner</h1>
+    </header>
+    <div class="container">
+        <div class="data">
+            <div><span>Timestamp:</span><span id="timestamp">--</span></div>
+            <div><span>Metal:</span><span id="metal">--</span></div>
+            <div><span>Currency:</span><span id="currency">--</span></div>
+            <div><span>Exchange:</span><span id="exchange">--</span></div>
+            <div><span>Symbol:</span><span id="symbol">--</span></div>
+            <div><span>Previous Close Price:</span><span id="prev_close_price">--</span></div>
+            <div><span>Open Price:</span><span id="open_price">--</span></div>
+            <div><span>Low Price:</span><span id="low_price">--</span></div>
+            <div><span>High Price:</span><span id="high_price">--</span></div>
+            <div><span>Current Price:</span><span id="price">--</span></div>
+            <div><span>Change:</span><span id="change">--</span></div>
+            <div><span>Change %:</span><span id="change_percent">--</span></div>
+            <div><span>Ask Price:</span><span id="ask">--</span></div>
+            <div><span>Bid Price:</span><span id="bid">--</span></div>
+            <div><span>Price per Gram 24k:</span><span id="price_gram_24k">--</span></div>
+            <div><span>Price per Gram 22k:</span><span id="price_gram_22k">--</span></div>
+            <div><span>Price per Gram 21k:</span><span id="price_gram_21k">--</span></div>
+            <div><span>Price per Gram 20k:</span><span id="price_gram_20k">--</span></div>
+            <div><span>Price per Gram 18k:</span><span id="price_gram_18k">--</span></div>
+            <div><span>Price per Gram 16k:</span><span id="price_gram_16k">--</span></div>
+            <div><span>Price per Gram 14k:</span><span id="price_gram_14k">--</span></div>
+            <div><span>Price per Gram 10k:</span><span id="price_gram_10k">--</span></div>
+        </div>
+        <div class="button-container">
+            <button id="download">Download Data as Excel</button>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Gold Live Scanner. All rights reserved.
+    </footer>
+    <script>
+        const API_URL = "https://www.goldapi.io/api/XAU/USD";
+        const API_KEY = "goldapi-1crfslyvq161q-io";
+
+        async function fetchGoldData() {
+            try {
+                const response = await fetch(API_URL, {
+                    headers: {
+                        'x-access-token': API_KEY
+                    }
+                });
+                const data = await response.json();
+
+                document.getElementById('timestamp').textContent = new Date(data.timestamp * 1000).toLocaleString();
+                document.getElementById('metal').textContent = data.metal;
+                document.getElementById('currency').textContent = data.currency;
+                document.getElementById('exchange').textContent = data.exchange;
+                document.getElementById('symbol').textContent = data.symbol;
+                document.getElementById('prev_close_price').textContent = data.prev_close_price;
+                document.getElementById('open_price').textContent = data.open_price;
+                document.getElementById('low_price').textContent = data.low_price;
+                document.getElementById('high_price').textContent = data.high_price;
+                document.getElementById('price').textContent = data.price;
+                document.getElementById('change').textContent = data.ch;
+                document.getElementById('change_percent').textContent = data.chp;
+                document.getElementById('ask').textContent = data.ask;
+                document.getElementById('bid').textContent = data.bid;
+                document.getElementById('price_gram_24k').textContent = data.price_gram_24k;
+                document.getElementById('price_gram_22k').textContent = data.price_gram_22k;
+                document.getElementById('price_gram_21k').textContent = data.price_gram_21k;
+                document.getElementById('price_gram_20k').textContent = data.price_gram_20k;
+                document.getElementById('price_gram_18k').textContent = data.price_gram_18k;
+                document.getElementById('price_gram_16k').textContent = data.price_gram_16k;
+                document.getElementById('price_gram_14k').textContent = data.price_gram_14k;
+                document.getElementById('price_gram_10k').textContent = data.price_gram_10k;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function downloadExcel() {
+            const data = {
+                "Timestamp": new Date(document.getElementById('timestamp').textContent).toLocaleString(),
+                "Metal": document.getElementById('metal').textContent,
+                "Currency": document.getElementById('currency').textContent,
+                "Exchange": document.getElementById('exchange').textContent,
+                "Symbol": document.getElementById('symbol').textContent,
+                "Previous Close Price": document.getElementById('prev_close_price').textContent,
+                "Open Price": document.getElementById('open_price').textContent,
+                "Low Price": document.getElementById('low_price').textContent,
+                "High Price": document.getElementById('high_price').textContent,
+                "Current Price": document.getElementById('price').textContent,
+                "Change": document.getElementById('change').textContent,
+                "Change %": document.getElementById('change_percent').textContent,
+                "Ask Price": document.getElementById('ask').textContent,
+                "Bid Price": document.getElementById('bid').textContent,
+                "Price per Gram 24k": document.getElementById('price_gram_24k').textContent,
+                "Price per Gram 22k": document.getElementById('price_gram_22k').textContent,
+                "Price per Gram 21k": document.getElementById('price_gram_21k').textContent,
+                "Price per Gram 20k": document.getElementById('price_gram_20k').textContent,
+                "Price per Gram 18k": document.getElementById('price_gram_18k').textContent,
+                "Price per Gram 16k": document.getElementById('price_gram_16k').textContent,
+                "Price per Gram 14k": document.getElementById('price_gram_14k').textContent,
+                "Price per Gram 10k": document.getElementById('price_gram_10k').textContent
+            };
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += Object.keys(data).join(",") + "\r\n";
+            csvContent += Object.values(data).join(",") + "\r\n";
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "gold_data.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        document.getElementById('download').addEventListener('click', downloadExcel);
+
+        // Fetch data on page load and then every minute
+        fetchGoldData();
+        setInterval(fetchGoldData, 60000); // 60 seconds
+    </script>
+</body>
+</html>
