@@ -1,5 +1,5 @@
 const API_URL = "https://www.goldapi.io/api/XAU/USD";
-const API_KEY = "goldapi-zpgpueslyxpvm59-io";
+const API_KEY = "goldapi-1crfslyvq161q-io";
 
 async function fetchGoldData() {
     try {
